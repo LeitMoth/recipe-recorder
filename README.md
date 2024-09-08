@@ -1,2 +1,2 @@
 # to-dont-list
-A broken list of things to do
+A list of things to don't.
