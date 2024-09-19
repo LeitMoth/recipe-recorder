@@ -87,9 +87,9 @@ void main() {
   runApp(MaterialApp(
     title: 'Recipe Recorder',
     theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        useMaterial3: true,
-      ),
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+      useMaterial3: true,
+    ),
     home: const RecipeList(),
   ));
 }

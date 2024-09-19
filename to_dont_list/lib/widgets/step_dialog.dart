@@ -22,18 +22,16 @@ class StepDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Ingredient To Add'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      title: const Text('Add Ingredient/Instruction'),
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
         TextField(
           key: const Key("IngredientField"),
           controller: _ingredientController,
-          decoration: const InputDecoration(hintText: "type ingredient here"),
+          decoration: const InputDecoration(hintText: "Ingredient name or instruction"),
         ),
         TextField(
           controller: _amountController,
-          decoration: const InputDecoration(hintText: "type amount here"),
+          decoration: const InputDecoration(hintText: "Amount (leave blank for instruction)"),
         )
       ]),
       actions: <Widget>[
@@ -41,20 +39,24 @@ class StepDialog extends StatelessWidget {
         // https://api.flutter.dev/flutter/widgets/ListenableBuilder-class.html
         ListenableBuilder(
           // https://api.flutter.dev/flutter/foundation/Listenable/Listenable.merge.html
-          listenable: Listenable.merge([_ingredientController, _amountController]),
+          listenable:
+              Listenable.merge([_ingredientController, _amountController]),
           builder: (BuildContext context, Widget? child) {
-                  return ElevatedButton(
-                    key: const Key("OKButton"),
-                    style: yesStyle,
-                    onPressed: _ingredientController.text.isNotEmpty
-                        ? () {
-                            onStepAdded(_ingredientController.text, _amountController.text,
-                                _ingredientController, _amountController);
-                            Navigator.pop(context);
-                          }
-                        : null,
-                    child: const Text('OK'),
-                  );
+            return ElevatedButton(
+              key: const Key("OKButton"),
+              style: yesStyle,
+              onPressed: _ingredientController.text.isNotEmpty
+                  ? () {
+                      onStepAdded(
+                          _ingredientController.text,
+                          _amountController.text,
+                          _ingredientController,
+                          _amountController);
+                      Navigator.pop(context);
+                    }
+                  : null,
+              child: const Text('OK'),
+            );
           },
         ),
 
