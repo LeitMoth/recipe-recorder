@@ -1,6 +1,5 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
-import 'package:to_dont_list/objects/item.dart';
 import 'package:to_dont_list/objects/step.dart';
 import 'package:to_dont_list/widgets/step_dialog.dart';
 import 'package:to_dont_list/widgets/step_widget.dart';
@@ -20,14 +19,12 @@ class _RecipeListState extends State<RecipeList> {
 
   void _handleDeleteStep(RecipeStep step) {
     setState(() {
-      print("Deleting item");
       steps.remove(step);
     });
   }
 
   void _handleProgressChange(RecipeStep step, bool completed) {
     setState(() {
-      print("Moving progress");
       int idx = steps.indexOf(step);
       if (idx < 0 || idx == stepsDone) {
         stepsDone = -1;
@@ -43,8 +40,6 @@ class _RecipeListState extends State<RecipeList> {
       TextEditingController ingredientController,
       TextEditingController amountController) {
     setState(() {
-      print("Adding new step");
-
       if (amount.isNotEmpty) {
         steps.add(IngredientStep(name: ingredient, amount: amount));
       } else {
@@ -70,10 +65,10 @@ class _RecipeListState extends State<RecipeList> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Recipe Recorder'),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          // https://api.dart.dev/stable/3.5.3/dart-core/List/asMap.html
           children: widgetSteps,
         ),
         floatingActionButton: FloatingActionButton(
@@ -82,7 +77,6 @@ class _RecipeListState extends State<RecipeList> {
               showDialog(
                   context: context,
                   builder: (_) {
-                    print("thing happened");
                     return StepDialog(onStepAdded: _handleNewStep);
                   });
             }));
@@ -90,8 +84,12 @@ class _RecipeListState extends State<RecipeList> {
 }
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: 'Recipe Recorder',
-    home: RecipeList(),
+    theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        useMaterial3: true,
+      ),
+    home: const RecipeList(),
   ));
 }

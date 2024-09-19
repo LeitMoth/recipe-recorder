@@ -18,17 +18,6 @@ class RecipeStepWidget extends StatelessWidget {
   final StepProgressCallback onProgressChanged;
   final StepRemovedCallback onDeleteStep;
 
-  Color _getColor(BuildContext context) {
-    // The theme depends on the BuildContext because different
-    // parts of the tree can have different themes.
-    // The BuildContext indicates where the build is
-    // taking place and therefore which theme to use.
-
-    return completed //
-        ? Colors.black54
-        : Theme.of(context).primaryColor;
-  }
-
   TextStyle? _getTextStyle(BuildContext context) {
     if (!completed) return null;
 
