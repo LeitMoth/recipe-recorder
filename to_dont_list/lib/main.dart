@@ -1,40 +1,17 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/objects/item.dart';
-import 'package:to_dont_list/widgets/to_do_items.dart';
-import 'package:to_dont_list/widgets/to_do_dialog.dart';
+import 'package:to_dont_list/widgets/step_dialog.dart';
 
-class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+class RecipeList extends StatefulWidget {
+  const RecipeList({super.key});
 
   @override
-  State createState() => _ToDoListState();
+  State createState() => _RecipeListState();
 }
 
-class _ToDoListState extends State<ToDoList> {
+class _RecipeListState extends State<RecipeList> {
   final List<Item> items = [const Item(name: "add more todos")];
-  final _itemSet = <Item>{};
-
-  void _handleListChanged(Item item, bool completed) {
-    setState(() {
-      // When a user changes what's in the list, you need
-      // to change _itemSet inside a setState call to
-      // trigger a rebuild.
-      // The framework then calls build, below,
-      // which updates the visual appearance of the app.
-
-      items.remove(item);
-      if (!completed) {
-        print("Completing");
-        _itemSet.add(item);
-        items.add(item);
-      } else {
-        print("Making Undone");
-        _itemSet.remove(item);
-        items.insert(0, item);
-      }
-    });
-  }
 
   void _handleDeleteItem(Item item) {
     setState(() {
@@ -52,6 +29,17 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
+  void _handleNewStep(
+      String ingredient,
+      String amount,
+      TextEditingController ingredientController,
+      TextEditingController amountController) {
+        print("Adding new step");
+        
+        ingredientController.clear();
+        amountController.clear();
+      }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,13 +49,9 @@ class _ToDoListState extends State<ToDoList> {
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           children: items.map((item) {
-            return ToDoListItem(
-              item: item,
-              completed: _itemSet.contains(item),
-              onListChanged: _handleListChanged,
-              onDeleteItem: _handleDeleteItem,
-            );
-          }).toList(),
+            return const Text("hello");
+          }
+          ).toList(),
         ),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
@@ -75,7 +59,8 @@ class _ToDoListState extends State<ToDoList> {
               showDialog(
                   context: context,
                   builder: (_) {
-                    return ToDoDialog(onListAdded: _handleNewItem);
+                    print("thing happened");
+                    return StepDialog(onStepAdded: _handleNewStep);
                   });
             }));
   }
@@ -83,7 +68,7 @@ class _ToDoListState extends State<ToDoList> {
 
 void main() {
   runApp(const MaterialApp(
-    title: 'To Do List',
-    home: ToDoList(),
+    title: 'Recipe Recorder',
+    home: RecipeList(),
   ));
 }
