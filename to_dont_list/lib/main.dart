@@ -1,7 +1,9 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
 import 'package:to_dont_list/objects/item.dart';
+import 'package:to_dont_list/objects/step.dart';
 import 'package:to_dont_list/widgets/step_dialog.dart';
+import 'package:to_dont_list/widgets/step_widget.dart';
 
 class RecipeList extends StatefulWidget {
   const RecipeList({super.key});
@@ -11,21 +13,27 @@ class RecipeList extends StatefulWidget {
 }
 
 class _RecipeListState extends State<RecipeList> {
-  final List<Item> items = [const Item(name: "add more todos")];
+  final List<RecipeStep> steps = [
+    const InstructionStep(instruction: "Preheat Oven")
+  ];
+  int stepsDone = -1;
 
-  void _handleDeleteItem(Item item) {
+  void _handleDeleteStep(RecipeStep step) {
     setState(() {
       print("Deleting item");
-      items.remove(item);
+      steps.remove(step);
     });
   }
 
-  void _handleNewItem(String itemText, TextEditingController textController) {
+  void _handleProgressChange(RecipeStep step, bool completed) {
     setState(() {
-      print("Adding new item");
-      Item item = Item(name: itemText);
-      items.insert(0, item);
-      textController.clear();
+      print("Moving progress");
+      int idx = steps.indexOf(step);
+      if (idx < 0 || idx == stepsDone) {
+        stepsDone = -1;
+      } else {
+        stepsDone = idx;
+      }
     });
   }
 
@@ -34,24 +42,39 @@ class _RecipeListState extends State<RecipeList> {
       String amount,
       TextEditingController ingredientController,
       TextEditingController amountController) {
-        print("Adding new step");
-        
-        ingredientController.clear();
-        amountController.clear();
+    setState(() {
+      print("Adding new step");
+
+      if (amount.isNotEmpty) {
+        steps.add(IngredientStep(name: ingredient, amount: amount));
+      } else {
+        steps.add(InstructionStep(instruction: ingredient));
       }
+
+      ingredientController.clear();
+      amountController.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> widgetSteps = [];
+    for (int i = 0; i < steps.length; ++i) {
+      widgetSteps.add(RecipeStepWidget(
+          step: steps[i],
+          completed: i <= stepsDone,
+          onProgressChanged: _handleProgressChange,
+          onDeleteStep: _handleDeleteStep));
+    }
+
     return Scaffold(
         appBar: AppBar(
-          title: const Text('To Do List'),
+          title: const Text('Recipe Recorder'),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          children: items.map((item) {
-            return const Text("hello");
-          }
-          ).toList(),
+          // https://api.dart.dev/stable/3.5.3/dart-core/List/asMap.html
+          children: widgetSteps,
         ),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
