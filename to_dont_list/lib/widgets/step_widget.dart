@@ -38,6 +38,17 @@ class RecipeStepWidget extends StatelessWidget {
     );
   }
 
+  TextStyle? _getAmountTextStyle(BuildContext context) {
+    if (!completed) {
+      return const TextStyle(fontWeight: FontWeight.w700);
+    }
+
+    return const TextStyle(
+      color: Colors.black54,
+      decoration: TextDecoration.lineThrough,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     onTap() {
@@ -52,10 +63,7 @@ class RecipeStepWidget extends StatelessWidget {
       IngredientStep(name: String name, amount: String amount) => ListTile(
           onTap: onTap,
           onLongPress: onLongPress,
-          leading: CircleAvatar(
-            backgroundColor: _getColor(context),
-            child: Text(amount),
-          ),
+          leading: Text(amount, style: _getAmountTextStyle(context)),
           title: Text(
             name,
             style: _getTextStyle(context),
