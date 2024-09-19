@@ -27,6 +27,7 @@ class StepDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
         TextField(
+          key: const Key("IngredientField"),
           controller: _ingredientController,
           decoration: const InputDecoration(hintText: "type ingredient here"),
         ),
