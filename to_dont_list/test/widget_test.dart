@@ -45,7 +45,7 @@ void main() {
   });
 
   testWidgets('Default RecipeList has one, uncompleted, step', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: RecipeList()));
+    await tester.pumpWidget(const MaterialApp(home: RecipeList(steps: [])));
 
     final listItemFinder = find.byType(RecipeStepWidget);
 
@@ -57,7 +57,8 @@ void main() {
 
   // More of an integration test, but still useful
   testWidgets('Clicking and Typing adds step to RecipeList', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: RecipeList()));
+    final List<RecipeStep> steps = [];
+    await tester.pumpWidget(const MaterialApp(home: RecipeList(steps: [],)));
 
     expect(find.byType(TextField), findsNothing);
 
@@ -81,7 +82,7 @@ void main() {
   testWidgets(
       'Tapping the second step in the recipe also marks the first as completed',
       (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: RecipeList()));
+    await tester.pumpWidget(const MaterialApp(home: RecipeList(steps: [],)));
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pump(); // Pump after every action to rebuild the widgets
     await tester.enterText(find.byKey(const Key("IngredientField")), 'hi');
