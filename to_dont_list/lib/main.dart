@@ -1,8 +1,10 @@
 // Started with https://docs.flutter.dev/development/ui/widgets-intro
 import 'package:flutter/material.dart';
+import 'package:to_dont_list/RecipePage.dart';
 import 'package:to_dont_list/objects/step.dart';
 import 'package:to_dont_list/widgets/step_dialog.dart';
 import 'package:to_dont_list/widgets/step_widget.dart';
+
 
 class RecipeList extends StatefulWidget {
   const RecipeList({super.key});
@@ -90,6 +92,6 @@ void main() {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
       useMaterial3: true,
     ),
-    home: const RecipeList(),
+    home: const Recipepage(),
   ));
 }
