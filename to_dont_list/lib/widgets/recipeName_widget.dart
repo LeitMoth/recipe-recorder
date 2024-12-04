@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_dont_list/main.dart';
 import 'package:to_dont_list/objects/RecipeName.dart';
 
 
@@ -11,7 +12,14 @@ class RecipeNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: () async {
+        await Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const RecipeList(),
+              ),
+            );
+      },
       title: Text(name.name)
     );
   }
