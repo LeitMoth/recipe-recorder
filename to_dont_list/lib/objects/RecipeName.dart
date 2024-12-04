@@ -1,5 +1,10 @@
 
+import 'package:to_dont_list/objects/step.dart';
+
 class RecipeName {
-  const RecipeName({required this.name});
+  RecipeName({required this.name});
   final String name;
+  final List<RecipeStep> steps = [
+    const InstructionStep(instruction: "Preheat Oven")
+  ];
 }

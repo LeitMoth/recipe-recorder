@@ -16,7 +16,7 @@ class RecipeNameWidget extends StatelessWidget {
         await Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const RecipeList(),
+                builder: (context) => RecipeList(steps: name.steps),
               ),
             );
       },
